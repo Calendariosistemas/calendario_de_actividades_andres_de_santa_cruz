@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNIDAD EDUCATIVA ANDRÉS DE SANTA CRUZ</title>
+
+  <style>
+    /* RESET Y ESTILOS GENERALES */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* MENÚ DE NAVEGACIÓN */
+    nav {
+      background-color: #f4d35e;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 1rem 1.5rem;
+      color: #0d3b66;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    nav ul li a:hover {
+      background-color: #ee964b;
+      color: white;
+    }
+
+    /* SECCIONES MAIN */
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      background: white;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      color: #0d3b66;
+      border-bottom: 3px solid #f4d35e;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* SECCIÓN INICIO */
+    .hero-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .hero-text {
+      flex: 1 1 400px;
+    }
+
+    .hero-img {
+      flex: 1 1 300px;
+      text-align: center;
+    }
+
+    .hero-img img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+    }
+
+    .quick-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background-color: #0d3b66;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ee964b;
+    }
+
+    /* SECCIÓN CALENDARIO */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      background-color: #0d3b66;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+    }
+
+    .calendar-btn {
+      background: #f4d35e;
+      color: #0d3b66;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .calendar-btn:hover {
+      background: #ee964b;
+      color: white;
+    }
+
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: bold;
+      background: #e0e0e0;
+      padding: 0.5rem 0;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      background: #ccc;
+      border: 1px solid #ccc;
+    }
+
+    .day {
+      background: white;
+      min-height: 80px;
+      padding: 5px;
+      font-size: 0.9rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .day.empty {
+      background: #f9f9f9;
+    }
+
+    .day-number {
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    /* LÍNEAS DE COLORES SIN TEXTO PARA EL CALENDARIO */
+    .events-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    .event-line {
+      height: 8px;
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .event-line:hover {
+      opacity: 0.8;
+      transform: scaleY(1.3);
+    }
+
+    /* COLORES DE ACTIVIDADES */
+    .event-line.Academicas { background-color: #1e88e5; }   /* Azul */
+    .event-line.Culturales { background-color: #4caf50; }   /* Verde */
+    .event-line.Deportivas { background-color: #8e24aa; }   /* Morado */
+    .event-line.Administrativas { background-color: #fdd835; } /* Amarillo */
+
+    /* LEYENDA DEL CALENDARIO */
+    .calendar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 1rem;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 8px;
+      border-radius: 3px;
+    }
+
+    /* SECCIÓN ACTIVIDADES */
+    .filter-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #0d3b66;
+      background: white;
+      color: #0d3b66;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: #0d3b66;
+      color: white;
+    }
+
+    .activities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .activity-card {
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 1rem;
+      border-left: 5px solid #0d3b66;
+      background: #fafafa;
+    }
+
+    .activity-card.Academicas { border-left-color: #1e88e5; }
+    .activity-card.Culturales { border-left-color: #4caf50; }
+    .activity-card.Deportivas { border-left-color: #8e24aa; }
+    .activity-card.Administrativas { border-left-color: #fdd835; }
+
+    .activity-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 0.8rem;
+    }
+
+    .activity-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #0d3b66;
+    }
+
+    .activity-date {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    /* SECCIÓN BIOGRAFÍA */
+    .timeline {
+      border-left: 4px solid #0d3b66;
+      padding-left: 1.5rem;
+      margin-left: 0.5rem;
+    }
+
+    .timeline-item {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.95rem;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      background: #ee964b;
+      border-radius: 50%;
+    }
+
+    .timeline-year {
+      font-weight: bold;
+      color: #0d3b66;
+    }
+
+    /* MAPA */
+    .map-container {
+      width: 100%;
+      height: 350px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #ccc;
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: #0d3b66;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .calendar-weekdays, .calendar-days {
+        font-size: 0.8rem;
+      }
+      
+      .day {
+        min-height: 50px;
+        padding: 3px;
+      }
+
+      .event-line {
+        height: 6px;
+      }
+
+      .calendar-legend {
+        gap: 0.6rem;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN -->
+  <nav>
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#calendario">Calendario</a></li>
+      <li><a href="#actividades">Actividades</a></li>
+      <li><a href="#biografia">Biografía</a></li>
+      <li><a href="#mapa">Mapa</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- SECCIÓN INICIO -->
+    <section id="inicio">
+      <h2>Bienvenido a nuestra Comunidad Educativa</h2>
+      <div class="hero-container">
+        <div class="hero-text">
+          <p>La <strong>Unidad Educativa Andrés de Santa Cruz</strong> les da la bienvenida a su portal informativo oficial. Este espacio ha sido diseñado para mantener a toda nuestra comunidad al día con el desarrollo de nuestro año escolar. Aquí podrán consultar el calendario académico, nuestros eventos institucionales, y conocer que eventos se realizan en nuestra Unidad Educativa..</p>
+          <p style="margin-top: 1rem;">Explore nuestros eventos institucionales, conozca nuestra trayectoria histórica y manténgase informado sobre las actividades académicas y comunitarias.</p>
+          <div class="quick-links">
+            <a href="#calendario" class="btn">Ver Calendario</a>
+            <a href="#actividades" class="btn">Actividades</a>
+          </div>
+        </div>
+        <div class="hero-img">
+          <img src="imagenes/13.jpg" alt="Unidad Educativa" style="width: 100%; max-width: 400px; height: 220px; object-fit: cover; border-radius: 8px;">
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CALENDARIO -->
+    <section id="calendario">
+      <h2>Calendario Institucional</h2>
+      <p style="margin-bottom: 1rem;">Navegue entre los meses utilizando las flechas para revisar las fechas y eventos institucionales programados.</p>
+      
+      <div class="calendar-header">
+        <button class="calendar-btn" onclick="changeMonth(-1)">&lt;</button>
+        <h3 id="monthYearDisplay">Enero 2026</h3>
+        <button class="calendar-btn" onclick="changeMonth(1)">&gt;</button>
+      </div>
+
+      <div class="calendar-weekdays">
+        <div>Dom</div>
+        <div>Lun</div>
+        <div>Mar</div>
+        <div>Mié</div>
+        <div>Jue</div>
+        <div>Vie</div>
+        <div>Sáb</div>
+      </div>
+
+      <div class="calendar-days" id="calendarDays">
+        <!-- Generado dinámicamente con JavaScript -->
+      </div>
+
+      <!-- Leyenda indicadora de colores -->
+      <div class="calendar-legend">
+        <div class="legend-item"><span class="legend-color" style="background:#1e88e5;"></span> Académicas</div>
+        <div class="legend-item"><span class="legend-color" style="background:#4caf50;"></span> Culturales</div>
+        <div class="legend-item"><span class="legend-color" style="background:#8e24aa;"></span> Deportivas</div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ACTIVIDADES -->
+    <section id="actividades">
+      <h2>Actividades y Eventos</h2>
+      <p style="margin-bottom: 1rem;">Filtre nuestras actividades por categoría para obtener información detallada:</p>
+      
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterActivities('Todas')">Todas</button>
+        <button class="filter-btn" onclick="filterActivities('Academicas')">Académicas</button>
+        <button class="filter-btn" onclick="filterActivities('Culturales')">Culturales</button>
+        <button class="filter-btn" onclick="filterActivities('Deportivas')">Deportivas</button>
+      </div>
+
+      <div class="activities-grid" id="activitiesGrid">
+        <!-- Generado dinámicamente con JavaScript -->
+      </div>
+    </section>
+
+    <!-- SECCIÓN BIOGRAFÍA -->
+    <section id="biografia">
+      <h2>Historia de la Unidad Educativa</h2>
+      <p style="margin-bottom: 1.5rem;">La Unidad Educativa ¨Andrés de Santa Cruz¨ es una institución fiscal que pertenece al subsistema de Educación Regular y se encuentra ubicada en el barrio Villa Fátima, zona noroeste de la ciudad de Tupiza, en la provincia Sud Chichas del departamento de Potosí. Su creación responde a la necesidad de brindar educación de calidad a los niños, niñas y jóvenes de esta zona, que en los años noventa experimentaba un notable crecimiento poblacional. La unidad educativa fue fundada el 8 de marzo de 1993, fecha que marca el inicio oficial de sus actividades académicas. En sus primeros años, la institución funcionó con recursos limitados, en un pequeño ambiente adaptado, donde un grupo de docentes comprometidos y padres de familia entusiastas unieron esfuerzos para hacer realidad el sueño de contar con un colegio propio. Con el paso del tiempo, la unidad fue creciendo en infraestructura, mobiliario y número de estudiantes, gracias al apoyo de las autoridades educativas, del municipio y de la comunidad. El nombre de la institución rinde homenaje al Mariscal Andrés de Santa Cruz y Calahumana, destacado militar y político boliviano-peruano, símbolo de integración, disciplina y liderazgo. Este nombre fue elegido para reflejar los ideales de unión, fortaleza y trabajo por la patria, valores que hoy forman parte del espíritu institucional. A lo largo de sus 25 años de vida, la Unidad Educativa “Andrés de Santa Cruz” ha formado generaciones de estudiantes con una educación técnico humanística, basada en los principios de la Ley Avelino Siñani – Elizardo Pérez (Ley 070), que promueve una formación integral, inclusiva y comunitaria. El colegio se caracteriza por fomentar el desarrollo del pensamiento crítico, la práctica de valores, la responsabilidad social y el compromiso con el medio ambiente. Durante su trayectoria, la institución ha logrado importantes avances en los ámbitos académico, cultural, científico y deportivo, alcanzando reconocimientos locales, departamentales y nacionales. Los estudiantes han participado con éxito en olimpiadas científicas, ferias educativas, actividades cívicas y campeonatos intercolegiales, representando con orgullo a su institución y a la ciudad de Tupiza. La unidad educativa también ha apostado por la mejora constante de su infraestructura. Gracias a la colaboración del Gobierno Municipal, de los padres de familia y del plantel docente, se han construido nuevos ambientes, laboratorios, talleres y espacios recreativos que brindan mejores condiciones para el aprendizaje. De igual manera, se ha trabajado en la implementación de tecnologías y materiales pedagógicos modernos para fortalecer la calidad educativa. El personal docente ha sido siempre uno de los pilares fundamentales de la institución. Su dedicación y compromiso han permitido consolidar un proyecto educativo que combina la enseñanza científica con la formación en valores. El Centro de Estudiantes, por su parte, ha tenido un papel protagónico en la promoción de actividades que fortalecen la identidad institucional y la participación democrática. En el año 2018, la Unidad Educativa “Andrés de Santa Cruz” celebró con orgullo sus Bodas de Plata, recordando 25 años de esfuerzo, perseverancia y crecimiento. Este aniversario no solo significó una mirada al pasado, sino también un compromiso hacia el futuro: continuar formando hombres y mujeres capaces de transformar positivamente su entorno. La institución se ha consolidado como una de las más representativas de la ciudad de Tupiza. Su lema, su disciplina y su espíritu comunitario reflejan el compromiso con la educación boliviana y con la formación de nuevas generaciones de ciudadanos que contribuyan al desarrollo del país con conocimiento, identidad y valores.
+Misión
+Formar ciudadanos críticos, creativos y solidarios mediante una educación de calidad, inclusiva y ética. Promovemos competencias académicas junto a habilidades socioemocionales y responsabilidad ambiental.
+Valores
+- Responsabilidad
+- Respeto
+- Solidaridad
+- Creatividad
+- Compromiso social:</p>
+    </section>
+
+    <!-- SECCIÓN MAPA -->
+    <section id="mapa">
+      <h2>Ubicación de la Institución</h2>
+      <p style="margin-bottom: 1rem;">Nos encontramos ubicados en el Municipio de Tupiza[cite: 1].</p>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14887.893666687002!2d-65.7280!3d-21.4435!2m3!1f0!0f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94002fa3f06d863f%3A0x6b64d39f4e2f9d14!2sTupiza!5e0!3m2!1ses!2sbo!4v1680000000000!5m2!1ses!2sbo" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer>
+    <p>&copy; 2026 Unidad Educativa Andrés de Santa Cruz - Tupiza, Bolivia</p>
+  </footer>
+
+  <!-- LÓGICA EN JAVASCRIPT -->
+  <script>
+    const eventsData = [
+      { id: 1, fecha: "2026-02-02", titulo: "Inicio de Clases", categoria: "Academicas", lugar: "patio de la institución", descripcion: "Acto de apertura que marca el comienzo del nuevo año escolar en la Unidad Educativa. Recibimos a los estudiantes con entusiasmo y alegría a través del izamiento del pabellón nacional, la entonación de los himnos y las palabras de bienvenida de nuestro Director. Durante su intervención, la autoridad motivó al alumnado a iniciar esta etapa con la mejor actitud, deseándoles el mayor de los éxitos en sus estudios.", imagen: "imagenes/clases.jpg" },
+
+      { id: 2, fecha: "2026-02-13", titulo: "Mojazon", categoria: "Culturales", lugar: "Patio Central", descripcion: "La convivencia de Carnaval con la tradicional mojazón y ch'alla institucional Es Una de las primeras actividades que se realiza con el objetivo de reforzar la convivencia entre los estudiantes y profesores, esta actividad incluye juegos por grado con agua y espuma.", imagen: "imagenes/mojazon.jpg" },
+
+      { id: 3, fecha: "2026-03-24", titulo: "Arreglo de aulas", categoria: "Academicas", lugar: "Instalaciones de la UE", descripcion: "Es la actividad donde se limpia, ordena y decora el aula para que se vea bonita y presentable. Se hace con el objetivo de recibir nuestro aniversario del colegio mostrando el trabajo en equipo, la creatividad y el respeto por nuestro espacio de estudio.", imagen: "imagenes/aulas.jpg" },
+
+      { id: 4, fecha: "2026-03-28", titulo: " Misa de acción de Gracias y Aniversario de la U.E ADESCRUZ", categoria: "Academicas", lugar: "En la Unidad Educativa Andrés de Santa Cruz", descripcion: "Es una actividad solemne de agradecimiento a Dios por los 33 años de vida institucional de nuestra Unidad Educativa Andrés de Santa Cruz. Mediante la Santa Misa damos gracias por la formación de generaciones de estudiantes, y con el Acto Cívico rendimos homenaje a la historia, valores y trayectoria de nuestro colegio, reafirmando el compromiso de seguir educando con orgullo y patriotismo.", imagen: "imagenes/aniversario.jpg" },
+
+      { id: 5, fecha: "2026-03-07", titulo: "Desfile de Teas", categoria: "Academicas", lugar: "Plaza central", descripcion: "Resaltar el XXXII Aniversario de la Unidad Educativa. Mediante un Acto cívico y desfile.", imagen: "imagenes/desfile.jpg" },
+
+      { id: 6, fecha: "2026-03-08", titulo: "Embanderamiento del Colegio", categoria: "Academicas", lugar: "Cancha de la institución", descripcion: "Es el acto cívico donde se cuelgan y se hace respetar las banderas en el colegio. Se hace por El aniversario del colegio Se adorna el colegio con la bandera de Bolivia, la bandera del colegio, y hacer un acto para recordar el respeto a los símbolos patrios y el amor a la patria.", imagen: "imagenes/banderas.jpg" },
+
+      { id: 7, fecha: "2026-03-11", titulo: "Bautismo a los nuevos estudiantes y Dia De Campo", categoria: "Academicas", lugar: "Reyna Mora de Tupiza", descripcion: "La Unidad Educativa realiza cada año el Bautismo a los estudiantes de primero como bienvenida recibida con su respectivo padrino/madrina designados por los estudiantes de la promoción. Los estudiantes de la Unidad Educativa en conjunto con la administración de asesores de curso realizan el día de Campo en Reyna Mora con coordinación de maestros y estudiantes. Con el objetivo de una convivencia sana.", imagen: "imagenes/bautismo.jpg" },
+
+      { id: 8, fecha: "2026-04-09", titulo: "Campeonato de Intercursos y Eleccion de Miss y mister", categoria: "Deportivas", lugar: "Cancha deportiva del Colegio", descripcion: "Es una de las actividades deportivas la Unidad Educativa, los diferentes cursos compiten en distintas categorías demostrando su talento, esfuerzo y espíritu de equipo , durante el campeonato reina un ambiente de alegría, compañerismo y sana competencia, los profesores y la dirección del colegio apoyan a los estudiantes, fomentando el deporte y la unión entre compañeros, este campeonato no solo busca premiar a los equipos ganadores sino también promover los valores de la amistad, el respeto y la disciplina.", imagen: "imagenes/campeonato.jpg" },
+
+      { id: 9, fecha: "2026-06-27", titulo: "Campaña de recolección del P.S.P", categoria: "Academicas", lugar: "Calle Andrade", descripcion: "En la Unidad Educativa Andrés de Santa Cruz se lleva a cabo la primera campaña de recolección de latas y botellas esta actividad fomenta el cuidado del medio ambiente y conciencia ecológica, junto con la participación de los estudiantes de promoción, contribuirán con la recolección y clasificación de materiales reciclables, gracias al trabajo en equipo y el compromiso de todos los participantes, la campaña será un éxito..", imagen: "imagenes/reciclaje.jpg" },
+
+      { id: 10, fecha: "2026-08-14", titulo: "Santa Anita", categoria: "Culturales", lugar: "Cancha de Villa Fatima", descripcion: "Es una tradición muy especial que se celebra con alegria y creatividad, en esta fecha cada curso realiza una preparación en miniatura, los estudiantes participan con entusiasmo en esta actividad, mostrando su imaginación y habilidades, además de que se organizan los juegos y exposiciones de sus platos donde la comunidad compran mediante una ficha el plato que se les apetece y les damos a conocer el valor de la cultura.", imagen: "imagenes/santa.jpg" },
+
+      { id: 11, fecha: "2026-08-26", titulo: "𝗫𝗜 𝗙𝗲𝗿𝗶𝗮 𝗖𝘂𝗹𝘁𝘂𝗿𝗮𝗹 𝗜𝗻𝘁𝗲𝗿-𝗖omunidades de la Provincia Sud Chichas", categoria: "Culturales", lugar: "Cancha de Villa Fatima", descripcion: "Esta actividad tiene el objetivo de dar conocimiento sobre las diferentes comunidades de la provincia Sud chichas sobre sus Tradiciones, costumbres e Historia general. Esta se realiza mediante un desfile que incluye a la institución de anfitriona, autoridades municipales, el alcalde, directores y estudiantes de diferentes instituciones educativas. Los diferentes cursos preparan diferentes representaciones sobre las comunidades incluyendo bailes y stands.", imagen: "imagenes/feria.jpg" },
+
+      { id: 12, fecha: "2026-08-11", titulo: "Feria de Filosofía y V.E.R", categoria: "Academicas", lugar: "patio del colegio", descripcion: "La Unidad Educativa realiza esta feria para reforzar sobre los conocimientos de las materias de Filosofía y Valores Espiritualidad y Religiones. Esta actividad cuenta con la participación de todos los maestros y estudiantes, que demuestran mediante trabajos, juegos y presentaciones educativas", imagen: "imagenes/filosofia.jpg" },
+
+      { id: 13, fecha: "2026-09-21", titulo: "Día del Estudiante", categoria: "Academicas", lugar: "Salón de Maestros rurales", descripcion: "Para reconocer el esfuerzo la dedicación de todos los estudiantes es una fecha especial en la que se realiza la fiesta de gala donde los estudiantes bailan y conviven, los profesores y la dirección del colegio ayudan junto con los padres a organizar esta celebración con el fin de motivar a los alumnos y recordarles la importancia de la educación en su futuro, se organizó una fiesta de gala para que los estudiantes puedan disfrutar sanamente.", imagen: "imagenes/estudiante.jpg" },
+
+      { id: 14, fecha: "2026-09-25", titulo: "El XVII Festival de Danzas y Música", categoria: "Academicas", lugar: "Coliseo Moisés Terrazas", descripcion: "La Unidad Educativa Andrés de Santa Cruz Unidades Educativas de Tupiza como también del interior del país, que presenta danzas nacionales acompañadas por conjuntos musicales en vivo. El festival busca fortalecer y revalorizar la cultura nacional entre los estudiantes dónde cada delegación invitada y institución de Tupiza está conformada por 20 estudiantes en danza y 10 en el conjunto musical, con jurados que califican", imagen: "imagenes/danzas.jpg" },
+
+      { id: 15, fecha: "2026-12-12", titulo: "Acto de Fin de Año", categoria: "Academicas", lugar: "En la Unidad Educativa", descripcion: "Es un acto donde se cierran lasn actividades acádemicas y se reconoce el esfuerzo de todos los estudiantes y profesores durante este evento se presentan palabras de despedida, ultima convivencia como curso los alumnos destacados reciben su entrega de certificados, es un momento lleno de emoción y gratitud, en el que se reflexiona sobre todo lo aprendido durante el año escolar y la graduación de estudiantes de la Promoción 2026.", imagen: "imagenes/fin.jpg" }
+    ];
+
+    let currentDate = new Date(2026, 0, 1);
+
+    const monthNames = [
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      document.getElementById('monthYearDisplay').innerText = `${monthNames[month]} ${year}`;
+
+      const calendarDaysContainer = document.getElementById('calendarDays');
+      calendarDaysContainer.innerHTML = '';
+
+      const firstDayIndex = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.classList.add('day', 'empty');
+        calendarDaysContainer.appendChild(emptyDiv);
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.classList.add('day');
+
+        const dayNumSpan = document.createElement('div');
+        dayNumSpan.classList.add('day-number');
+        dayNumSpan.innerText = day;
+        dayDiv.appendChild(dayNumSpan);
+
+        const currentMonthStr = String(month + 1).padStart(2, '0');
+        const currentDayStr = String(day).padStart(2, '0');
+        const dateKey = `${year}-${currentMonthStr}-${currentDayStr}`;
+
+        const dayEvents = eventsData.filter(e => e.fecha === dateKey);
+
+        if (dayEvents.length > 0) {
+          const eventsContainer = document.createElement('div');
+          eventsContainer.classList.add('events-container');
+
+          dayEvents.forEach(evt => {
+            const evtLine = document.createElement('div');
+            evtLine.classList.add('event-line', evt.categoria);
+            evtLine.title = evt.titulo;
+
+            // Muestra la ventana emergente formateada exactamente como en la imagen
+            evtLine.onclick = () => {
+              alert(`Evento: ${evt.titulo}\nCategoría: ${evt.categoria}\nLugar: ${evt.lugar}\nDescripción: ${evt.descripcion}`);
+            };
+
+            eventsContainer.appendChild(evtLine);
+          });
+
+          dayDiv.appendChild(eventsContainer);
+        }
+
+        calendarDaysContainer.appendChild(dayDiv);
+      }
+    }
+
+    function changeMonth(delta) {
+      currentDate.setMonth(currentDate.getMonth() + delta);
+      renderCalendar();
+    }
+
+    function renderActivities(filter = 'Todas') {
+      const grid = document.getElementById('activitiesGrid');
+      grid.innerHTML = '';
+
+      const filtered = filter === 'Todas' 
+        ? eventsData 
+        : eventsData.filter(a => a.categoria === filter);
+
+      filtered.forEach(act => {
+        const card = document.createElement('div');
+        card.className = `activity-card ${act.categoria}`;
+        card.innerHTML = `
+          ${act.imagen ? `<img src="${act.imagen}" alt="${act.titulo}">` : ''}
+          <h3>${act.titulo}</h3>
+          <div class="activity-date">📅 ${act.fecha} | 📍 ${act.lugar}</div>
+          <p>${act.descripcion}</p>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterActivities(category) {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.innerText.includes(category) || (category === 'Todas' && btn.innerText === 'Todas')) {
+          btn.classList.add('active');
+        }
+      });
+      renderActivities(category);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCalendar();
+      renderActivities();
+    });
+  </script>
+</body>
+</html>
