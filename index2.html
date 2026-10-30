@@ -81,7 +81,7 @@
     }
 
     .hero-text {
-      flex: 1 1 300px;
+      flex: 1 1 400px;
     }
 
     .hero-img {
@@ -92,7 +92,6 @@
     .hero-img img {
       width: 100%;
       max-width: 400px;
-      height: auto;
       border-radius: 8px;
     }
 
@@ -100,7 +99,6 @@
       display: flex;
       gap: 1rem;
       margin-top: 1rem;
-      flex-wrap: wrap;
     }
 
     .btn {
@@ -112,7 +110,6 @@
       border-radius: 4px;
       font-weight: bold;
       transition: background 0.3s;
-      text-align: center;
     }
 
     .btn:hover {
@@ -313,29 +310,52 @@
       margin-top: 2rem;
     }
 
-    /* REGLAS RESPONSIVAS MEJORADAS */
+    /* RESPONSIVE OPTIMIZADO PARA MÓVILES */
     @media (max-width: 768px) {
       main {
-        margin: 1rem auto;
-        padding: 0 0.5rem;
+        margin: 1rem 0.5rem;
+        padding: 0;
       }
-
       section {
         padding: 1.2rem;
-        margin-bottom: 1.2rem;
       }
-
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
       nav ul li a {
-        padding: 0.8rem 1rem;
-        font-size: 0.95rem;
+        padding: 0.7rem 1rem;
       }
-
       .quick-links {
         flex-direction: column;
       }
+    }
 
-      .quick-links .btn {
-        width: 100%;
+    @media (max-width: 600px) {
+      .calendar-weekdays {
+        font-size: 0.65rem;
+        padding: 0.3rem 0;
+      }
+      
+      .calendar-days {
+        gap: 1px;
+      }
+
+      .day {
+        min-height: 52px;
+        padding: 2px;
+        font-size: 0.7rem;
+      }
+      
+      .day-number {
+        font-size: 0.75rem;
+        margin-bottom: 1px;
+      }
+
+      .event-tag {
+        font-size: 0.55rem;
+        padding: 1px 2px;
+        margin-top: 1px;
       }
 
       .calendar-header {
@@ -343,59 +363,12 @@
       }
 
       .calendar-header h3 {
-        font-size: 1.1rem;
-      }
-    }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        text-align: center;
+        font-size: 1rem;
       }
 
-      nav ul {
-        flex-direction: column;
-      }
-
-      nav ul li {
-        width: 100%;
-        text-align: center;
-        border-bottom: 1px solid rgba(13, 59, 102, 0.1);
-      }
-
-      nav ul li a {
-        padding: 0.8rem 1rem;
-      }
-
-      .calendar-weekdays, .calendar-days {
-        font-size: 0.75rem;
-      }
-
-      .day {
-        min-height: 55px;
-        padding: 2px;
-      }
-
-      .event-tag {
-        font-size: 0.65rem;
-        padding: 1px 2px;
-      }
-
-      .filter-buttons {
-        justify-content: center;
-      }
-
-      .filter-btn {
-        flex: 1 1 40%;
-        text-align: center;
-      }
-
-      .activities-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .map-container {
-        height: 250px;
+      .calendar-btn {
+        padding: 0.3rem 0.7rem;
+        font-size: 1rem;
       }
     }
   </style>
